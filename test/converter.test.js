@@ -13,24 +13,13 @@ const ncpAsync = bluebird.promisify(ncp.ncp);
 
 const readUtf8 = (filePath) => readFileAsync(filePath, 'utf8');
 
-const dir = __dirname;
-const root = [ dir ];
+const tempDirPath = path.join(__dirname, 'tempdir');
+const firstTempTestFilePath = path.join(__dirname, 'tempdir', 'testfile.js');
+const secondTempTestFilePath = path.join(__dirname, 'tempdir', 'directory', 'testfile.js');
 
-const tempDir = [ ...root, 'tempdir' ];
-const firstTempTestFile = [ ...root, 'tempdir', 'testfile.js'];
-const secondTempTestFile = [ ...root, 'tempdir', 'directory', 'testfile.js'];
-
-const endDir = [ ...root, 'testsWithEnd' ];
-const firstEndTestFile = [ ...root, 'testsWithEnd', 'testfile.js'];
-const secondEndTestFile = [ ...root, 'testsWithEnd', 'directory', 'testfile.js'];
-
-const tempDirPath = path.join.apply(null, tempDir);
-const firstTempTestFilePath = path.join.apply(null, firstTempTestFile);
-const secondTempTestFilePath = path.join.apply(null, secondTempTestFile);
-
-const endDirPath = path.join.apply(null, endDir);
-const firstEndTestFilePath = path.join.apply(null, firstEndTestFile);
-const secondEndTestFilePath = path.join.apply(null, secondEndTestFile);
+const endDirPath = path.join(__dirname, 'testsWithEnd');
+const firstEndTestFilePath = path.join(__dirname, 'testsWithEnd', 'testfile.js');
+const secondEndTestFilePath = path.join(__dirname, 'testsWithEnd', 'directory', 'testfile.js');
 
 const checkFilesAreEqual = (t, filepath, file) => {
   return readUtf8(filepath)
@@ -44,7 +33,7 @@ const checkFilesAreEqual = (t, filepath, file) => {
 
 tape('should read every file in the specified directory', (t) => {
 
-  ncpAsync(path.join(dir, 'testsWithPlan'), 'test/tempdir')
+  ncpAsync(path.join(__dirname, 'testsWithPlan'), 'test/tempdir')
     .then(() => converter(tempDirPath))
     .then(() => readUtf8(firstTempTestFilePath))
     .then((file) => checkFilesAreEqual(t, firstEndTestFilePath, file))
