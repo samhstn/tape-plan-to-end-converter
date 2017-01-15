@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "node test/runner.js",
-    "debug": "node --inspect --debug-brk test/converter.test.js"
+    "debug": "node --inspect --debug-brk test/runner.js"
   },
   "keywords": [],
   "author": "",
@@ -17,8 +17,6 @@
     "rimraf": "^2.5.4"
   },
   "devDependencies": {
-    "eslint": "^3.13.1",
-    "eslint-config-google": "^0.7.1",
     "tape": "^4.6.3"
   }
 }
