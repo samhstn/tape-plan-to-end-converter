@@ -27,7 +27,7 @@ const convertFile = (file) => {
       (data) => writeFile(
         file,
         data.includes('require(\'tape\')')
-        || data.includes('require(\'tape\')') 
+        || data.includes('require("tape")') 
         ? seperateTests(data)
           .map(
             (test) => convertTest(test)
