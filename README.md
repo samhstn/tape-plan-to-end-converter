@@ -4,8 +4,6 @@
 
 Recursively converts all files in a directory which use `t.plan` syntax to instead use `t.end`.
 
-See the tests for how this is done
-
 This will convert
 
 ```js
@@ -27,6 +25,8 @@ tape('hi', (t) => {
 
 On all your tests
 
+See the before: `test/testsWithPlan` and after: `test/testsWithEnd` directories for example conversions.
+
 # How to use
 
 Clone the repository
@@ -34,12 +34,10 @@ Clone the repository
 git clone `github.com/shouston3/tape-plan-to-end-converter.git`
 ```
 
-Set up a javascript file called `plan-to-end.js` in the root of the directory you want to change the tests for as follows:
-```js
-require('/path/to/tape-plan-to-end-converter/index.js')(__dirname);
+Point the `bin/cmd.js` file at the directory that you would like to recursively translate, for example:
+```bash
+./tape-plan-to-end-converter/bin/cmd.js ./app/test
 ```
 
-Then run `node plan-to-end.js` and your tests should have changed
-
-Ensure you use version control before attempting this, also afterwards the indents may be a little messed up, so run `eslint . --fix`
+Ensure you use version control before attempting this and afterwards the indents may be a little off, so run `eslint . --fix`
 
