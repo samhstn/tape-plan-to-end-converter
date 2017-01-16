@@ -8,18 +8,19 @@ const bluebird = require('bluebird');
 
 const converter = require('../index.js');
 
-const readFileAsync = bluebird.promisify(fs.readFile);
-const ncpAsync = bluebird.promisify(ncp.ncp);
+const readFile = bluebird.promisify(fs.readFile);
+const recursivelyCopyDirectory = bluebird.promisify(ncp.ncp);
 
-const readUtf8 = (filePath) => readFileAsync(filePath, 'utf8');
+const readUtf8 = (filePath) => readFile(filePath, 'utf8');
 
 const tempDirPath = path.join(__dirname, 'tempdir');
 const firstTempTestFilePath = path.join(__dirname, 'tempdir', 'testfile.js');
 const secondTempTestFilePath = path.join(__dirname, 'tempdir', 'directory', 'testfile.js');
 
-const endDirPath = path.join(__dirname, 'testsWithEnd');
 const firstEndTestFilePath = path.join(__dirname, 'testsWithEnd', 'testfile.js');
 const secondEndTestFilePath = path.join(__dirname, 'testsWithEnd', 'directory', 'testfile.js');
+
+const testsWithPlanPath = path.join(__dirname, 'testsWithPlan');
 
 const checkFilesAreEqual = (t, filepath, file) => {
   return readUtf8(filepath)
@@ -33,7 +34,7 @@ const checkFilesAreEqual = (t, filepath, file) => {
 
 tape('should read every file in the specified directory', (t) => {
 
-  ncpAsync(path.join(__dirname, 'testsWithPlan'), 'test/tempdir')
+  recursivelyCopyDirectory(testsWithPlanPath, 'test/tempdir')
     .then(() => converter(tempDirPath))
     .then(() => readUtf8(firstTempTestFilePath))
     .then((file) => checkFilesAreEqual(t, firstEndTestFilePath, file))
